@@ -1,0 +1,58 @@
+{
+	"id": "e0dddeef-df58-b052-c3e0-0059861c7cf3",
+	"name": "mSPlgrnd - UserService",
+	"description": "",
+	"order": [
+		"3d4b410b-ba69-49d0-5c44-fa5493154d16",
+		"3768cd8b-17ca-d626-207b-e5bfe706c492"
+	],
+	"folders": [],
+	"timestamp": 1454945164659,
+	"owner": "265097",
+	"remoteLink": "",
+	"public": false,
+	"requests": [
+		{
+			"id": "3768cd8b-17ca-d626-207b-e5bfe706c492",
+			"headers": "Content-Type: application/json\nx-api-key: b8TZBcIVsF7CqSJbiAhy72zVM6aJN9bI9VgcvZu3\n",
+			"url": "localhost:8080/users",
+			"pathVariables": {},
+			"preRequestScript": "",
+			"method": "POST",
+			"collectionId": "e0dddeef-df58-b052-c3e0-0059861c7cf3",
+			"data": [],
+			"dataMode": "raw",
+			"name": "PostUser",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1454945990755,
+			"version": 2,
+			"responses": [],
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": "{\n    \"firstName\": \"Felix\",\n    \"lastName\": \"Smith\",\n    \"email\":\"test@test\"\n}"
+		},
+		{
+			"id": "3d4b410b-ba69-49d0-5c44-fa5493154d16",
+			"headers": "",
+			"url": "http://localhost:8080/users/ce549091-a440-49d8-b5ac-64581114af0a",
+			"pathVariables": {},
+			"preRequestScript": "",
+			"method": "GET",
+			"collectionId": "e0dddeef-df58-b052-c3e0-0059861c7cf3",
+			"data": [],
+			"dataMode": "raw",
+			"name": "GetUser",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1454945969506,
+			"version": 2,
+			"responses": [],
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": ""
+		}
+	]
+}
