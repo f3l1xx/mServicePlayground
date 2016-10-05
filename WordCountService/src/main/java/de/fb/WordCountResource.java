@@ -7,11 +7,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 
-@Path(WordCountResource.USERS_PATH)
+@Path(WordCountResource.COUNT_PATH)
 @Produces(MediaType.APPLICATION_JSON)
 public class WordCountResource   {
 
-	static final String USERS_PATH = "count";
+	static final String COUNT_PATH = "count";
 	
 	public WordCountResource() {
 	}
@@ -19,7 +19,7 @@ public class WordCountResource   {
 	
 	@GET
 	@Path("/{message}")
-	public int getUser(@PathParam("message") String msg) throws Exception{
+	public int getCount(@PathParam("message") String msg) throws Exception{
 		return msg.split(" ").length ;
 	}
 	
