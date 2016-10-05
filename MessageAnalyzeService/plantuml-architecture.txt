@@ -1,0 +1,29 @@
+@startuml
+
+title Word Count Service - Component Diagram
+
+package "Application" {
+[ClientService\n(Java cmd)] as CS
+[MessageAnalyzeService\n(Dropwizard)] as MA
+[SentimentAnalyzerService\n(Sprint Boot)] as SA  
+[WordCountService\n(Dropwizard)] as WC
+[UserRegistrationService\n(DropWizard)] as UR
+}
+package "ELK" {
+[Kibana] as KI
+[Elasticsearch] as ES
+[Logstash] as LS
+}
+MA-->SA : hystrix (default: neutral)
+MA-->WC : hystrix (default: 0)
+MA-->UR : hystrix (default: false)
+CS-->MA : dummy calls
+
+MA-->LS : FileBeat
+SA-->LS : FileBeat
+WC-->LS : FileBeat
+UR-->LS : FileBeat
+
+KI-->ES
+LS-->ES
+@enduml

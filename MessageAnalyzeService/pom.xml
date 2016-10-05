@@ -19,6 +19,13 @@
 
 		<dependency>
 			<groupId>io.dropwizard</groupId>
+			<artifactId>dropwizard-testing</artifactId>
+			<version>${dropwizard.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.dropwizard</groupId>
 			<artifactId>dropwizard-auth</artifactId>
 			<version>${dropwizard.version}</version>
 		</dependency>
@@ -26,13 +33,66 @@
 		<dependency>
 			<groupId>com.netflix.hystrix</groupId>
 			<artifactId>hystrix-core</artifactId>
-			<version>1.4.23</version>
+			<version>1.5.1</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.netflix.hystrix</groupId>
+			<artifactId>hystrix-metrics-event-stream</artifactId>
+			<version>1.5.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
 		<plugins>
+
+
+			<plugin>
+				<groupId>com.github.jeluard</groupId>
+				<artifactId>plantuml-maven-plugin</artifactId>
+				<version>1.2</version>
+				<executions>
+					<execution>
+						<id>generate-uml</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<sourceFiles>
+						<directory>${basedir}</directory>
+						<includes>
+							<include>src/main/plantuml/**/*.txt</include>
+						</includes>
+					</sourceFiles>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>net.sourceforge.plantuml</groupId>
+						<artifactId>plantuml</artifactId>
+						<version>8034</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<!-- <plugin> <groupId>org.asciidoctor</groupId> <artifactId>asciidoctor-maven-plugin</artifactId> 
+				<version>1.5.2</version> <configuration> <sourceDirectory>src/main/asciidoc</sourceDirectory> 
+				<requires> <require>asciidoctor-diagram</require> </requires> </configuration> 
+				<executions> <execution> <id>output-html</id> <phase>generate-resources</phase> 
+				<goals> <goal>process-asciidoc</goal> </goals> <configuration> <backend>html5</backend> 
+				</configuration> </execution> </executions> <dependencies> <dependency> <groupId>org.asciidoctor</groupId> 
+				<artifactId>asciidoctorj-diagram</artifactId> <version>${asciidoctorj.diagram.version}</version> 
+				</dependency> <dependency> <groupId>org.asciidoctor</groupId> <artifactId>asciidoctorj</artifactId> 
+				<version>${asciidoctorj.version}</version> </dependency> </dependencies> 
+				</plugin> -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
@@ -62,7 +122,7 @@
 									implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
 								<transformer
 									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<mainClass>de.fb.UserRegistrationApplication</mainClass>
+									<mainClass>de.fb.MessageAnalyzeApplication</mainClass>
 								</transformer>
 							</transformers>
 						</configuration>
@@ -86,4 +146,13 @@
 		</plugins>
 	</build>
 
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-core</artifactId>
+				<version>2.6.3</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 </project>

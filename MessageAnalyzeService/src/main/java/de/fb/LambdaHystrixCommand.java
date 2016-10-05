@@ -3,29 +3,50 @@ package de.fb;
 import java.util.function.Supplier;
 
 import com.netflix.hystrix.HystrixCommand;
-import com.netflix.hystrix.HystrixCommandGroupKey;
+import com.netflix.hystrix.HystrixCommandKey;
 
-public class LambdaHystrixCommand<Out> extends HystrixCommand<Out> {
+import de.fb.hystrix.CmdGroup;
 
-	private Supplier<Out> runSupplier;
-	private Supplier<Out> fallbackSupplier;
+public class LambdaHystrixCommand<T> extends HystrixCommand<T> {
 
-	public LambdaHystrixCommand(
-            Supplier<Out> runSupplierIn,
-            Supplier<Out> fallbackSupplierIn) {
-        super(HystrixCommandGroupKey.Factory.asKey("DefaultGroup"));
+	private static final com.netflix.hystrix.HystrixCommand.Setter CMD_SETTER_WITH_DEFAULT_GROUP = HystrixCommand.Setter.withGroupKey(CmdGroup.DEFAULT);
+	
+	private Supplier<T> runSupplier;
+	private Supplier<T> fallbackSupplier;
 
-        runSupplier = runSupplierIn;
-        fallbackSupplier = fallbackSupplierIn;
-    }
+	private String cacheKey;
+
+	
+	public LambdaHystrixCommand(String commandkey, String cacheKey, Supplier<T> runSupplier, Supplier<T> fallbackSupplier) {
+		super(CMD_SETTER_WITH_DEFAULT_GROUP
+				.andCommandKey(HystrixCommandKey.Factory.asKey(commandkey)));
+		this.cacheKey = cacheKey;
+
+		this.runSupplier = runSupplier;
+		this.fallbackSupplier = fallbackSupplier;
+	}
+	
+	public LambdaHystrixCommand(String commandkey, Supplier<T> runSupplier, Supplier<T> fallbackSupplier) {
+		this(commandkey,null,runSupplier,fallbackSupplier);
+	}
+
 
 	@Override
-	protected Out run() throws Exception {
+	protected String getCacheKey() {
+		return cacheKey;
+	}
+	
+	@Override
+	protected T run() throws Exception {
 		return runSupplier.get();
 	}
 
 	@Override
-	protected Out getFallback() {
+	protected T getFallback() {
+		if(fallbackSupplier == null){
+			throw new UnsupportedOperationException();
+		}
 		return fallbackSupplier.get();
 	}
+	
 }

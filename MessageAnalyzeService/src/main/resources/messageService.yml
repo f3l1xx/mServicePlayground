@@ -1,4 +1,10 @@
-
+server:
+  type: simple
+  applicationContextPath: /
+  adminContextPath: /admin
+  connector:
+    type: http
+    port: 8075
 
 logging:
   level: INFO

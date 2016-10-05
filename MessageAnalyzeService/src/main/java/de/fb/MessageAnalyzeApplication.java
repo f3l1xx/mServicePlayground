@@ -1,5 +1,7 @@
 package de.fb;
 
+import com.netflix.hystrix.contrib.metrics.eventstream.HystrixMetricsStreamServlet;
+
 import io.dropwizard.Application;
 import io.dropwizard.auth.AuthDynamicFeature;
 import io.dropwizard.auth.AuthValueFactoryProvider;
@@ -27,7 +29,7 @@ public class MessageAnalyzeApplication extends Application<MessageAnalyzeConfig>
 		MessageAnalyzeResource resource = new MessageAnalyzeResource();
 		
 		env.jersey().register(resource);
-
+		
 	
 	    env.jersey().register(new AuthDynamicFeature(
 	            new BasicCredentialAuthFilter.Builder<PrincipalImpl>()
@@ -36,6 +38,7 @@ public class MessageAnalyzeApplication extends Application<MessageAnalyzeConfig>
 	    //If you want to use @Auth to inject a custom Principal type into your resource
 	    env.jersey().register(new AuthValueFactoryProvider.Binder<>(PrincipalImpl.class));
 	
+	    env.servlets().addServlet("HystrixStream", HystrixMetricsStreamServlet.class).addMapping("/hystrix.stream");
 	}
 
 

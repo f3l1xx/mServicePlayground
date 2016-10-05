@@ -13,15 +13,20 @@ import de.fb.MessageAnalysis.Sentiment;
 
 public class MessageAnalyzerService {
 
-	ObjectMapper mapper = new ObjectMapper();
+	private ObjectMapper mapper = new ObjectMapper();
+
+	private static final String HOST_SENTIMENT = "msg-sentiment";
+	private static final String HOST_WORDCOUNT = "msg-word-count";
 
 	public MessageAnalysis analyze(String text) throws InterruptedException, ExecutionException {
 
-		LambdaHystrixCommand<Integer> countCmd = new LambdaHystrixCommand<>(() -> callCountingService(text), () -> 1);
+		LambdaHystrixCommand<Integer> countCmd = new LambdaHystrixCommand<>("CountCmd", () -> callCountingService(text),
+				() -> 1);
 
-		LambdaHystrixCommand<Sentiment> sentimentCmd = new LambdaHystrixCommand<>(() -> callSentimentService(text),
-				() -> Sentiment.NEUTRAL);
+		LambdaHystrixCommand<Sentiment> sentimentCmd = new LambdaHystrixCommand<>("SentimentCmd",
+				() -> callSentimentService(text), () -> Sentiment.NEUTRAL);
 
+		// async
 		Future<Integer> futureCount = countCmd.queue();
 		Future<Sentiment> futureSentiment = sentimentCmd.queue();
 
@@ -30,7 +35,7 @@ public class MessageAnalyzerService {
 
 	private int callCountingService(String text) {
 		try {
-			return mapper.readValue(new URL("http://localhost:8070/count/" + escape(text)), Integer.class);
+			return mapper.readValue(new URL("http://" + HOST_WORDCOUNT + ":8070/count/" + escape(text)), Integer.class);
 		} catch (IOException e) {
 			throw new UncheckedIOException(e);
 		}
@@ -38,7 +43,7 @@ public class MessageAnalyzerService {
 
 	private Sentiment callSentimentService(String text) {
 		try {
-			Sentiment value = mapper.readValue(new URL("http://localhost:8090/sentiment/" + escape(text)),
+			Sentiment value = mapper.readValue(new URL("http://" + HOST_SENTIMENT + ":8090/sentiment/" + escape(text)),
 					Sentiment.class);
 			return value;
 		} catch (IOException e) {
@@ -46,7 +51,7 @@ public class MessageAnalyzerService {
 		}
 	}
 
-	private String escape(String text) {
+	static String escape(String text) {
 		return UrlEscapers.urlFragmentEscaper().escape(text);
 	}
 
