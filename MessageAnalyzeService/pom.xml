@@ -55,45 +55,6 @@
 
 
 			<plugin>
-				<groupId>com.github.jeluard</groupId>
-				<artifactId>plantuml-maven-plugin</artifactId>
-				<version>1.2</version>
-				<executions>
-					<execution>
-						<id>generate-uml</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<sourceFiles>
-						<directory>${basedir}</directory>
-						<includes>
-							<include>src/main/plantuml/**/*.txt</include>
-						</includes>
-					</sourceFiles>
-				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>net.sourceforge.plantuml</groupId>
-						<artifactId>plantuml</artifactId>
-						<version>8034</version>
-					</dependency>
-				</dependencies>
-			</plugin>
-			<!-- <plugin> <groupId>org.asciidoctor</groupId> <artifactId>asciidoctor-maven-plugin</artifactId> 
-				<version>1.5.2</version> <configuration> <sourceDirectory>src/main/asciidoc</sourceDirectory> 
-				<requires> <require>asciidoctor-diagram</require> </requires> </configuration> 
-				<executions> <execution> <id>output-html</id> <phase>generate-resources</phase> 
-				<goals> <goal>process-asciidoc</goal> </goals> <configuration> <backend>html5</backend> 
-				</configuration> </execution> </executions> <dependencies> <dependency> <groupId>org.asciidoctor</groupId> 
-				<artifactId>asciidoctorj-diagram</artifactId> <version>${asciidoctorj.diagram.version}</version> 
-				</dependency> <dependency> <groupId>org.asciidoctor</groupId> <artifactId>asciidoctorj</artifactId> 
-				<version>${asciidoctorj.version}</version> </dependency> </dependencies> 
-				</plugin> -->
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
 				<version>2.3</version>
