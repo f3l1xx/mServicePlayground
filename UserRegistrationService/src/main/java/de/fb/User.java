@@ -17,6 +17,14 @@ public class User {
 	
 	@Email
 	private String email;
+	
+	public User(String firstName, String lastName, String email) {
+		super();
+		this.id = UUID.randomUUID();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+	}
 
 	public UUID getId() {
 		return id;

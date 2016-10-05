@@ -23,9 +23,9 @@ import com.google.common.collect.Lists;
 public class UserRegistrationResource   {
 
 	static final String USERS_PATH = "users";
-	Map<UUID, User> userStore;
+	Map<String, User> userStore;
 	
-	public UserRegistrationResource(Map<UUID,User> userStore) {
+	public UserRegistrationResource(Map<String,User> userStore) {
 		this.userStore = userStore;
 	}
 	
@@ -36,15 +36,15 @@ public class UserRegistrationResource   {
 	
 	@GET
 	@Path("/{id}")
-	public Optional<User> getUser(@PathParam("id") UUID id){
+	public Optional<User> getUser(@PathParam("id") String id){
 		return Optional.fromNullable(userStore.get(id));
 	}
 	
 	@POST
 	public Response addUser(@Valid User user) throws Exception{
 		user.setId(UUID.randomUUID());
-		userStore.put(user.getId(), user);
+		userStore.put(user.getEmail(), user);
 		
-		return Response.created(new URI(USERS_PATH + "/" + user.getId().toString())).build();
+		return Response.created(new URI(USERS_PATH + "/" + user.getEmail().toString())).build();
 	}
 }
